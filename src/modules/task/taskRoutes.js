@@ -1,4 +1,13 @@
-import express from 'express';
-const route = express.Router();
+import Router from 'express';
+const taskRoutes = Router();
+import { TaskController } from './taskController.js';
+import { TaskService } from './taskService.js';
+import { TaskRepository } from './taskRepository.js';
 
-route.get('/task',taskControoler.home);
+const taskRepository = new TaskRepository();
+const taskService = new TaskService(taskRepository);
+const taskController = new TaskController(taskService);
+
+taskRoutes.get('/tasks', (req, res) => taskController.create(req, res));
+
+export { taskRoutes };
