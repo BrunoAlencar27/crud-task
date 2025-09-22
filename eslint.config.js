@@ -12,6 +12,14 @@ export default defineConfig([
     languageOptions: { globals: globals.node },
     rules: {
       'prettier/prettier': 'error',
+      'no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
     },
   },
 ]);
