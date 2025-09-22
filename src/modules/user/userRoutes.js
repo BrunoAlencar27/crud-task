@@ -9,6 +9,6 @@ const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
-userRoutes.get('/users', (req, res) => userController.findOne(req, res));
+userRoutes.get('/', (req, res) => userController.findOne(req, res));
 
 export { userRoutes };

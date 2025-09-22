@@ -9,11 +9,12 @@ const app = createApp();
 mongoose
   .connect(process.env.CONECTIONSTRING)
   .then(() => {
-    console.log('Connected to the databases');
+    console.log('Database connected successfully');
     app.emit('ok');
   })
-  .catch(() => {
-    console.log('Erro na conexão com banco de dados');
+  .catch((error) => {
+    console.log('Database connection failed');
+    console.log(error);
   });
 const port = process.env.PORT || 3000;
 
