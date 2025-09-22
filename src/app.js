@@ -5,8 +5,9 @@ import { taskRoutes } from './modules/task/taskRoutes.js';
 export function createApp() {
   const app = express();
   app.use(express.json());
-  app.use(taskRoutes);
-  app.use(userRoutes);
+
+  app.use('/tasks', taskRoutes);
+  app.use('/users', userRoutes);
 
   return app;
 }

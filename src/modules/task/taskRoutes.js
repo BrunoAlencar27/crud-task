@@ -8,6 +8,6 @@ const taskRepository = new TaskRepository();
 const taskService = new TaskService(taskRepository);
 const taskController = new TaskController(taskService);
 
-taskRoutes.get('/tasks', (req, res) => taskController.create(req, res));
+taskRoutes.get('/', (req, res) => taskController.create(req, res));
 
 export { taskRoutes };
