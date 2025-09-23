@@ -1,5 +1,11 @@
+import { UserModel } from './userModel.js';
+
 export class UserRepository {
-  async findById(id) {
-    return 'user ' + id;
+  async create(userData) {
+    return UserModel.create(userData);
+  }
+
+  async findByEmail(email) {
+    return UserModel.findOne({ email }).exec();
   }
 }
