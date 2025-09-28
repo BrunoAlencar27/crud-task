@@ -1,4 +1,5 @@
 import { throwValidationError } from '../../common/utils/throwValidationError.js';
+import { userMapper } from '../../common/utils/userMapper.js';
 import { registerUserSchema } from './validation/registerUserSchema.js';
 
 export class AuthController {
@@ -16,13 +17,7 @@ export class AuthController {
       if (validUser.error) throwValidationError(validUser);
 
       const user = await this.userService.create(validUser.value);
-      res.status(201).json({
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      });
+      res.status(201).json(userMapper(user));
     } catch (error) {
       next(error);
     }
