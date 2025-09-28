@@ -4,7 +4,6 @@ export class TaskController {
   }
   //funciona já
   async create(req, res) {
-    //testado e funcionando
     req.userId = 123;
     try {
       const newTask = await this.taskService.create(req.body, req.userId);
@@ -15,9 +14,8 @@ export class TaskController {
       res.json({ error: err.message });
     }
   }
-  //testado e funcionando
+
   async find(req, res) {
-    //teste não mexa
     req.userId = '123';
     try {
       const listTasks = await this.taskService.find(req.userId);
@@ -26,7 +24,7 @@ export class TaskController {
       res.json({ error: err.message });
     }
   }
-  //testado e funconando
+
   async findById(req, res, next) {
     try {
       const task = await this.taskService.findById(req.params.id);
@@ -36,7 +34,6 @@ export class TaskController {
     }
   }
 
-  //não testado ainda
   async updateById(req, res, next) {
     try {
       const task = await this.taskService.updateById(req.params.id, req.body);
@@ -46,7 +43,6 @@ export class TaskController {
     }
   }
 
-  //não testado ainda
   async deleteById(req, res, next) {
     try {
       const taskRemove = await this.taskService.deleteById(req.params.id);
@@ -58,7 +54,6 @@ export class TaskController {
     }
   }
 
-  //não testado ainda
   async delete(req, res, next) {
     req.userId;
     try {
