@@ -40,4 +40,13 @@ export class AuthController {
       next(error);
     }
   }
+
+  async logout(req, res, next) {
+    try {
+      res.clearCookie('token');
+      res.json({ message: 'user logged out successfully' });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
