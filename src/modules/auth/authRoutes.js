@@ -6,13 +6,16 @@ import { UserRepository } from '../user/userRespository.js';
 
 const authRoutes = Router();
 
-const authService = new AuthService();
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
-const authController = new AuthController(authService, userService);
+const authService = new AuthService(userService);
+const authController = new AuthController(authService);
 
 authRoutes.post('/register', (req, res, next) =>
   authController.register(req, res, next),
+);
+authRoutes.post('/login', (req, res, next) =>
+  authController.login(req, res, next),
 );
 
 export { authRoutes };

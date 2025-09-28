@@ -17,4 +17,8 @@ export class UserService {
       password: hashedPassword,
     });
   }
+
+  async findByEmail(email) {
+    return this.userRepository.findByEmail(email);
+  }
 }
