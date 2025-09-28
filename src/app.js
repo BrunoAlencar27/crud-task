@@ -8,7 +8,7 @@ export function createApp() {
   const app = express();
   app.use(express.json());
 
-  app.use(taskRoutes);
+  app.use('/tasks', taskRoutes);
   app.use('/users', userRoutes);
   app.use('/auth', authRoutes);
 
