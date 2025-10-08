@@ -12,7 +12,7 @@ export function createApp() {
   app.use(cookieParser());
 
   app.use('/tasks', authMiddleware, taskRoutes);
-  app.use('/users', userRoutes);
+  app.use('/users', authMiddleware, userRoutes);
   app.use('/auth', authRoutes);
 
   app.use(errorHandler);

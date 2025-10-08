@@ -18,7 +18,27 @@ export class UserService {
     });
   }
 
+  async findById(id) {
+    return this.userRepository.findById(id);
+  }
+
   async findByEmail(email) {
     return this.userRepository.findByEmail(email);
+  }
+
+  async update(id, updateData) {
+    if (updateData.email) {
+      const exist = await this.findByEmail(updateData.email);
+
+      if (exist && exist.id !== id) {
+        throw new AppError('email already registered');
+      }
+    }
+
+    return this.userRepository.update(id, updateData);
+  }
+
+  async remove(id) {
+    return this.userRepository.remove(id);
   }
 }
