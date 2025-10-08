@@ -1,5 +1,5 @@
 import { throwValidationError } from '../../common/utils/throwValidationError.js';
-import { userMapper } from '../../common/utils/userMapper.js';
+import { userMapper } from '../../modules/user/utils/userMapper.js';
 import { cookieConfig } from '../../config/cookies.js';
 import { loginUserSchema } from './validation/loginUserSchema.js';
 import { registerUserSchema } from './validation/registerUserSchema.js';
