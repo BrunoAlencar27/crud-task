@@ -9,8 +9,8 @@ export class TaskRepository {
   }
 
   async find(userId) {
-    const listTasks = await TaskModel.find({ userId: userId });
-    return listTasks;
+    const tasks = await TaskModel.find({ userId: userId });
+    return tasks;
   }
 
   async findById(taskId) {

@@ -10,8 +10,8 @@ export class TaskService {
   }
 
   async find(userId) {
-    const listTasks = await this.taskRepository.find(userId);
-    return listTasks;
+    const tasks = await this.taskRepository.find(userId);
+    return tasks;
   }
 
   async findById(taskId) {
@@ -24,16 +24,5 @@ export class TaskService {
     const task = await this.taskRepository.updateById(taskId, updateData);
     if (!task) throw new AppError(404, 'Task not found');
     return task;
-  }
-
-  async deleteById(taskId) {
-    const task = await this.taskRepository.deleteById(taskId);
-    if (!task) throw new AppError(404, 'Task not found');
-    return task;
-  }
-
-  async deleteAll(userId) {
-    const tasks = await this.taskRepository.deleteAll(userId);
-    return tasks;
   }
 }
