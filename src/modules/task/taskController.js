@@ -1,25 +1,31 @@
+import { createTaskSchema } from './validation/createTaskSchema.js';
+import { updateTaskSchema } from './validation/updateTaskSchema.js';
+import { throwValidationError } from '../../common/utils/throwValidationError.js';
+
 export class TaskController {
   constructor(taskService) {
     this.taskService = taskService;
   }
-  //funciona já
+
   async create(req, res) {
-    req.userId = 123;
+    const validCreateData = createTaskSchema.validate(req.body, {
+      abortEarly: false,
+    });
+
+    if (validCreateData.error) throwValidationError(validCreateData);
+
     try {
       const newTask = await this.taskService.create(req.body, req.userId);
-      res
-        .status(201)
-        .json({ message: 'Task criado com sucesso', data: newTask });
+      res.status(201).json({ data: newTask });
     } catch (err) {
       res.json({ error: err.message });
     }
   }
 
   async find(req, res) {
-    req.userId = '123';
     try {
       const listTasks = await this.taskService.find(req.userId);
-      res.status(201).json({ message: 'Taks listadas', data: listTasks });
+      res.status(201).json({ data: listTasks });
     } catch (err) {
       res.json({ error: err.message });
     }
@@ -28,7 +34,7 @@ export class TaskController {
   async findById(req, res, next) {
     try {
       const task = await this.taskService.findById(req.params.id);
-      res.status(201).json({ message: 'Tak encontrada', data: task });
+      res.status(201).json({ data: task });
     } catch (err) {
       next(err);
     }
@@ -36,8 +42,14 @@ export class TaskController {
 
   async updateById(req, res, next) {
     try {
+      const validUpdateData = updateTaskSchema.validate(req.body, {
+        abortEarly: false,
+      });
+
+      if (validUpdateData.error) throwValidationError(validUpdateData);
+
       const task = await this.taskService.updateById(req.params.id, req.body);
-      res.status(201).json({ message: 'Atualizado com sucesso', data: task });
+      res.status(201).json({ data: task });
     } catch (err) {
       next(err);
     }
@@ -46,21 +58,16 @@ export class TaskController {
   async deleteById(req, res, next) {
     try {
       const taskRemove = await this.taskService.deleteById(req.params.id);
-      res
-        .status(201)
-        .json({ message: 'Removido com sucesso', data: taskRemove });
+      res.status(201).json({ data: taskRemove });
     } catch (err) {
       next(err);
     }
   }
 
   async delete(req, res, next) {
-    req.userId;
     try {
       const tasks = await this.taskService.delete(req.userId);
-      res
-        .status(201)
-        .json({ message: 'Todas as taks foram removidas', data: tasks });
+      res.status(201).json({ data: tasks });
     } catch (err) {
       next(err);
     }

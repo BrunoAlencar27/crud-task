@@ -10,8 +10,14 @@ const taskController = new TaskController(taskService);
 
 taskRoutes.post('/', (req, res) => taskController.create(req, res));
 taskRoutes.get('/', (req, res) => taskController.find(req, res));
-taskRoutes.get('/:id', (req, res, next) => taskController.findById(req, res, next));
-taskRoutes.patch('/:id', (req, res, next) => taskController.updateById(req, res, next));
-taskRoutes.delete('/:id', (req, res, next) => taskController.deleteById(req, res, next));
+taskRoutes.get('/:id', (req, res, next) =>
+  taskController.findById(req, res, next),
+);
+taskRoutes.patch('/:id', (req, res, next) =>
+  taskController.updateById(req, res, next),
+);
+taskRoutes.delete('/:id', (req, res, next) =>
+  taskController.deleteById(req, res, next),
+);
 
 export { taskRoutes };
