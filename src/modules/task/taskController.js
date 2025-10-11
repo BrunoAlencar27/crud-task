@@ -24,8 +24,8 @@ export class TaskController {
 
   async find(req, res) {
     try {
-      const listTasks = await this.taskService.find(req.userId);
-      res.status(201).json({ data: listTasks });
+      const tasks = await this.taskService.find(req.userId);
+      res.status(201).json({ data: tasks });
     } catch (err) {
       res.json({ error: err.message });
     }
@@ -59,15 +59,6 @@ export class TaskController {
     try {
       const taskRemove = await this.taskService.deleteById(req.params.id);
       res.status(201).json({ data: taskRemove });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  async delete(req, res, next) {
-    try {
-      const tasks = await this.taskService.delete(req.userId);
-      res.status(201).json({ data: tasks });
     } catch (err) {
       next(err);
     }
