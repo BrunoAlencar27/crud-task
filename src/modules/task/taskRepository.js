@@ -19,8 +19,9 @@ export class TaskRepository {
   }
 
   async updateById(taskId, updateData) {
-    const task = await TaskModel.findByIdAndUpdate(taskId, updateData, {
-      new: true,
+    const task = await TaskModel.findByIdAndUpdate(taskId, {
+      description: updateData.description,
+      completed: updateData.completed,
     });
     return task;
   }

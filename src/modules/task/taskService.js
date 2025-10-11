@@ -34,7 +34,6 @@ export class TaskService {
 
   async deleteAll(userId) {
     const tasks = await this.taskRepository.deleteAll(userId);
-    console.log('Quer apagar tudo por que paizão, ta devendo?');
     return tasks;
   }
 }
