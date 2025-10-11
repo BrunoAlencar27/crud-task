@@ -241,6 +241,7 @@ taskRoutes.get('/:id', (req, res, next) =>
 taskRoutes.patch('/:id', (req, res, next) =>
   taskController.updateById(req, res, next),
 );
+
 /**
  * @openapi
  * /tasks/{id}:
@@ -256,8 +257,8 @@ taskRoutes.patch('/:id', (req, res, next) =>
  *           type: string
  *         description: ID of the task to be deleted
  *     responses:
- *       204:
- *         description:Task deleted successfully (no content)
+ *       201:
+ *         description: Task deleted successfully
  *       404:
  *         description: Task not found
  *         content:

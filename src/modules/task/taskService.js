@@ -25,4 +25,10 @@ export class TaskService {
     if (!task) throw new AppError(404, 'Task not found');
     return task;
   }
+
+  async deleteById(taskId) {
+    const task = await this.taskRepository.deleteById(taskId);
+    if (!task) throw new AppError(404, 'Task not found');
+    return task;
+  }
 }
