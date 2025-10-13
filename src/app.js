@@ -1,7 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
-import cors from 'cros';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import { userRoutes } from './modules/user/userRoutes.js';
 import { taskRoutes } from './modules/task/taskRoutes.js';
