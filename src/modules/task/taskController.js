@@ -16,7 +16,7 @@ export class TaskController {
 
     try {
       const newTask = await this.taskService.create(req.body, req.userId);
-      res.status(201).json({ data: newTask });
+      res.status(200).json({ data: newTask });
     } catch (err) {
       res.json({ error: err.message });
     }
@@ -25,7 +25,7 @@ export class TaskController {
   async find(req, res) {
     try {
       const tasks = await this.taskService.find(req.userId);
-      res.status(201).json({ data: tasks });
+      res.status(200).json({ data: tasks });
     } catch (err) {
       res.json({ error: err.message });
     }
@@ -34,7 +34,7 @@ export class TaskController {
   async findById(req, res, next) {
     try {
       const task = await this.taskService.findById(req.params.id);
-      res.status(201).json({ data: task });
+      res.status(200).json({ data: task });
     } catch (err) {
       next(err);
     }
@@ -58,7 +58,15 @@ export class TaskController {
   async deleteById(req, res, next) {
     try {
       const taskRemove = await this.taskService.deleteById(req.params.id);
-      res.status(201).json({ data: taskRemove });
+      res.status(204).json({ data: taskRemove });
+    } catch (err) {
+      next(err);
+    }
+  }
+  async deleteAll(req, res, next) {
+    try {
+      await this.taskService.deleteAll(req.userId);
+      res.status(200).json({ message: 'all tasks have been removed' });
     } catch (err) {
       next(err);
     }

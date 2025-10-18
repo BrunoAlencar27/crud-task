@@ -31,4 +31,9 @@ export class TaskService {
     if (!task) throw new AppError(404, 'Task not found');
     return task;
   }
+
+  async deleteAll(userId) {
+    const tasks = await this.taskRepository.deleteAll(userId);
+    if (!tasks) throw new AppError(404, 'Tasks not found');
+  }
 }

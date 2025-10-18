@@ -30,4 +30,8 @@ export class TaskRepository {
     const task = await TaskModel.findByIdAndDelete(taskId);
     return task;
   }
+
+  async deleteAll(userId) {
+    await TaskModel.deleteMany({ userId: userId });
+  }
 }
