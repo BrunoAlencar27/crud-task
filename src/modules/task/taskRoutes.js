@@ -70,7 +70,6 @@ const taskController = new TaskController(taskService);
  *                     example: "\"description\" length must be at least 3 characters long"
  */
 taskRoutes.post('/', (req, res) => taskController.create(req, res));
-
 /**
  * @openapi
  * /tasks:
@@ -110,7 +109,6 @@ taskRoutes.post('/', (req, res) => taskController.create(req, res));
  *                         example: "2025-11-11T00:51:22.098Z"
  */
 taskRoutes.get('/', (req, res) => taskController.find(req, res));
-
 /**
  * @openapi
  * /tasks/{id}:
@@ -169,7 +167,6 @@ taskRoutes.get('/', (req, res) => taskController.find(req, res));
 taskRoutes.get('/:id', (req, res, next) =>
   taskController.findById(req, res, next),
 );
-
 /**
  * @openapi
  * /tasks/{id}:
@@ -241,7 +238,6 @@ taskRoutes.get('/:id', (req, res, next) =>
 taskRoutes.patch('/:id', (req, res, next) =>
   taskController.updateById(req, res, next),
 );
-
 /**
  * @openapi
  * /tasks/{id}:
@@ -274,6 +270,43 @@ taskRoutes.patch('/:id', (req, res, next) =>
  */
 taskRoutes.delete('/:id', (req, res, next) =>
   taskController.deleteById(req, res, next),
+);
+/**
+ * @openapi
+ * /tasks/:
+ *   delete:
+ *     summary: "remove all tasks
+"
+ *     description: "all tasks related to a userID."
+ *     tags:
+ *       - Tasks
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: "tasks successfully removed
+"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "all tasks have been removed"
+ *       '404':
+ *         description: "Taks not found"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Tasks not found"
+ */
+taskRoutes.delete('/', (req, res, next) =>
+  taskController.deleteAll(req, res, next),
 );
 
 export { taskRoutes };
