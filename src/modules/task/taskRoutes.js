@@ -275,8 +275,7 @@ taskRoutes.delete('/:id', (req, res, next) =>
  * @openapi
  * /tasks/:
  *   delete:
- *     summary: "remove all tasks
-"
+ *     summary: "remove all tasks"
  *     description: "all tasks related to a userID."
  *     tags:
  *       - Tasks
@@ -284,8 +283,7 @@ taskRoutes.delete('/:id', (req, res, next) =>
  *       - bearerAuth: []
  *     responses:
  *       '200':
- *         description: "tasks successfully removed
-"
+ *         description: "tasks successfully removed"
  *         content:
  *           application/json:
  *             schema:
