@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 
-export function dbInit() {
-  return mongoose.connect(process.env.CONECTIONSTRING);
+export async function dbInit() {
+  try {
+    await mongoose.connect(process.env.CONECTIONSTRING);
+    console.log('Database connected successfully');
+  } catch (error) {
+    console.error('Database connection failed');
+    throw error;
+  }
 }
