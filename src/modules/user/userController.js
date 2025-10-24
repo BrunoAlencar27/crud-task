@@ -1,3 +1,4 @@
+import { AppError } from '../../common/errors/appError.js';
 import { throwValidationError } from '../../common/utils/throwValidationError.js';
 import { userMapper } from './utils/userMapper.js';
 import { updateUserSchema } from './validation/updateUserSchema.js';
@@ -40,6 +41,31 @@ export class UserController {
       res.clearCookie('token');
 
       res.status(204).json();
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async uploadProfileImage(req, res, next) {
+    try {
+      if (!req.file) throw new AppError(400, 'image not uploaded');
+
+      await this.userService.uploadProfile(req.userId, req.file);
+
+      res.json({
+        message: 'image uploaded successfully',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async removeProfileImage(req, res, next) {
+    try {
+      await this.userService.removeProfile(req.userId);
+      res.json({
+        message: 'image removed successfully',
+      });
     } catch (error) {
       next(error);
     }

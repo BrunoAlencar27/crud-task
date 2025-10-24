@@ -2,11 +2,16 @@ import { Router } from 'express';
 import { UserController } from './userController.js';
 import { UserRepository } from './userRespository.js';
 import { UserService } from './userService.js';
+import multer from 'multer';
+import { fileFilter, storage } from '../../config/multer.js';
+import { S3ImageProvider } from './providers/imageProvider.js';
 
+const upload = multer({ storage, fileFilter });
 const userRoutes = Router();
 
 const userRepository = new UserRepository();
-const userService = new UserService(userRepository);
+const imageProvider = new S3ImageProvider();
+const userService = new UserService(userRepository, imageProvider);
 const userController = new UserController(userService);
 
 /**
@@ -158,6 +163,99 @@ userRoutes.patch('/', (req, res, next) =>
  */
 userRoutes.delete('/', (req, res, next) =>
   userController.remove(req, res, next),
+);
+
+/**
+ * @openapi
+ * /users/profile:
+ *   post:
+ *     summary: Upload a profile image for the currently logged-in user
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               profile:
+ *                 type: string
+ *                 format: binary
+ *                 description: Profile image file to upload
+ *     responses:
+ *       200:
+ *         description: Profile image uploaded successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: image uploaded successfully
+ *       401:
+ *         description: Unauthorized – No token provided
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: no token provided
+ */
+userRoutes.post('/profile', upload.single('profile'), (req, res, next) =>
+  userController.uploadProfileImage(req, res, next),
+);
+
+/**
+ * @openapi
+ * /users/profile:
+ *   delete:
+ *     summary: Delete the profile image of the currently logged-in user
+ *     tags:
+ *       - Users
+ *     responses:
+ *       200:
+ *         description: Profile image deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: image removed successfully
+ *       400:
+ *         description: Bad Request – User has no saved profile picture
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: user has no saved profile picture
+ *       401:
+ *         description: Unauthorized – No token provided
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: no token provided
+ */
+userRoutes.delete('/profile', (req, res, next) =>
+  userController.removeProfileImage(req, res, next),
 );
 
 export { userRoutes };
