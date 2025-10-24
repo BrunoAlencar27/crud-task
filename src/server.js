@@ -1,8 +1,7 @@
-import { createApp } from './app.js';
-import dotenv from 'dotenv';
-import { dbInit } from './config/dataBase.js';
+import 'dotenv/config';
 
-dotenv.config();
+import { createApp } from './app.js';
+import { dbInit } from './config/dataBase.js';
 
 const app = createApp();
 await dbInit();

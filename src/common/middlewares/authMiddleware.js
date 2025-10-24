@@ -1,7 +1,5 @@
 import { AppError } from '../errors/appError.js';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export function authMiddleware(req, res, next) {
   try {

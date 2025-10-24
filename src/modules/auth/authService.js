@@ -1,8 +1,6 @@
 import argon2 from 'argon2';
 import { AppError } from '../../common/errors/appError.js';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-dotenv.config();
 export class AuthService {
   constructor(userService) {
     this.userService = userService;
