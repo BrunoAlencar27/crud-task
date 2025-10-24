@@ -38,6 +38,9 @@ const userController = new UserController(userService);
  *                 email:
  *                   type: string
  *                   example: user@email.com
+ *                 profileUrl:
+ *                   type: string
+ *                   example: https://url.image.com/image
  *                 createdAt:
  *                   type: string
  *                   format: date-time
@@ -101,6 +104,9 @@ userRoutes.get('/', (req, res, next) => userController.show(req, res, next));
  *                 email:
  *                   type: string
  *                   example: user.updated@email.com
+ *                 profileUrl:
+ *                   type: string
+ *                   example: https://url.image.com/image
  *                 createdAt:
  *                   type: string
  *                   format: date-time
