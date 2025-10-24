@@ -2,11 +2,16 @@ import { Router } from 'express';
 import { UserController } from './userController.js';
 import { UserRepository } from './userRespository.js';
 import { UserService } from './userService.js';
+import multer from 'multer';
+import { fileFilter, storage } from '../../config/multer.js';
+import { S3ImageProvider } from './providers/imageProvider.js';
 
+const upload = multer({ storage, fileFilter });
 const userRoutes = Router();
 
 const userRepository = new UserRepository();
-const userService = new UserService(userRepository);
+const imageProvider = new S3ImageProvider();
+const userService = new UserService(userRepository, imageProvider);
 const userController = new UserController(userService);
 
 /**
@@ -158,6 +163,14 @@ userRoutes.patch('/', (req, res, next) =>
  */
 userRoutes.delete('/', (req, res, next) =>
   userController.remove(req, res, next),
+);
+
+userRoutes.post('/profile', upload.single('profile'), (req, res, next) =>
+  userController.uploadProfileImage(req, res, next),
+);
+
+userRoutes.delete('/profile', (req, res, next) =>
+  userController.removeProfileImage(req, res, next),
 );
 
 export { userRoutes };

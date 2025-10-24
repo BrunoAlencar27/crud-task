@@ -44,4 +44,26 @@ export class UserController {
       next(error);
     }
   }
+
+  async uploadProfileImage(req, res, next) {
+    try {
+      await this.userService.uploadProfile(req.userId, req.file);
+      res.json({
+        message: 'image uploaded successfully',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async removeProfileImage(req, res, next) {
+    try {
+      await this.userService.removeProfile(req.userId);
+      res.json({
+        message: 'image removed successfully',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

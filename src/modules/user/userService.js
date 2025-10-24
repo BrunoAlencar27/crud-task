@@ -2,8 +2,9 @@ import argon2 from 'argon2';
 import { AppError } from '../../common/errors/appError.js';
 
 export class UserService {
-  constructor(userRepository) {
+  constructor(userRepository, imageProvider) {
     this.userRepository = userRepository;
+    this.imageProvider = imageProvider;
   }
 
   async create(userData) {
@@ -40,5 +41,22 @@ export class UserService {
 
   async remove(id) {
     return this.userRepository.remove(id);
+  }
+
+  async uploadProfile(id, file) {
+    const key = await this.imageProvider.upload(id, file);
+    await this.userRepository.update(id, { profileImageKey: key });
+  }
+
+  async removeProfile(id) {
+    const userData = await this.userRepository.findById(id);
+    if (!userData.profileImageKey) {
+      throw new AppError(400, 'user has no saved profile picture');
+    }
+
+    Promise.all([
+      await this.imageProvider.remove(userData.profileImageKey),
+      await this.userRepository.update(id, { profileImageKey: null }),
+    ]);
   }
 }
